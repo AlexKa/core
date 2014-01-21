@@ -1375,10 +1375,11 @@ class Util {
 
 		// handling for re shared folders
 		$pathSplit = explode('/', $dir);
-
+		$sharedPart = $pathSplit[sizeof($pathSplit) - 1];
+		unset($pathSplit);
+		
 		foreach ($content as $c) {
 
-			$sharedPart = $pathSplit[sizeof($pathSplit) - 1];
 			$targetPathSplit = array_reverse(explode('/', $c['path']));
 
 			$path = '';
@@ -1386,7 +1387,7 @@ class Util {
 			// rebuild path
 			foreach ($targetPathSplit as $pathPart) {
 
-				if ($pathPart !== $sharedPart) {
+				if ($pathPart !== $sharedPart || $dir . $path == $dir) {
 
 					$path = '/' . $pathPart . $path;
 
@@ -1397,6 +1398,8 @@ class Util {
 				}
 
 			}
+			
+			unset($targetPathSplit);
 
 			$path = $dir . $path;
 
